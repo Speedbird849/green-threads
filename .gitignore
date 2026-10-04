@@ -1,0 +1,21 @@
+# Build outputs and binaries
+bin/
+build/
+*.o
+*.a
+*.so
+*.dylib
+*.out
+
+# Debug symbols
+*.dSYM/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Editor / IDE artifacts
+.vscode/
+.idea/
+*.swp
+*~
