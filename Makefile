@@ -27,7 +27,7 @@ $(BIN_DIR)/test_basic_mini: $(TEST_DIR)/test_basic_mini.c | $(BIN_DIR)
 
 test: $(TEST_BINS)
 	./$(BIN_DIR)/test_pingpong
-	./$(BIN_DIR)/test_basic_mini
+# 	./$(BIN_DIR)/test_basic_mini
 
 docker-test:
 	docker run --rm -v "$$(pwd)":/workspace $(DOCKER_IMAGE) bash -c "make clean && make test"

@@ -13,6 +13,8 @@ The operating system kernel only sees a single thread. The green threads library
 - Provides standard concurrency primitives: `join`, mutexes, and semaphores.
 - Handles timer-based preemption (`SIGALRM`) and stack safety guard pages (`mprotect`).
 
+> For an in-depth explanation of the core systems concepts, trade-offs vs kernel threads, and the 5 foundational OS problems being solved, see [**docs/the_problem.md**](docs/the_problem.md).
+
 ---
 
 ## 2. Roadmap & Stages
