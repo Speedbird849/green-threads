@@ -11,7 +11,7 @@ LIB_NAME = libgt.a
 STATIC_LIB = $(BUILD_DIR)/$(LIB_NAME)
 LIB_OBJS = $(BUILD_DIR)/thread.o
 
-TEST_BINS = $(BIN_DIR)/test_pingpong $(BIN_DIR)/test_basic_mini $(BIN_DIR)/test_basic
+TEST_BINS = $(BIN_DIR)/test_pingpong $(BIN_DIR)/test_basic_mini $(BIN_DIR)/test_basic $(BIN_DIR)/test_join
 DOCKER_IMAGE = libgt-dev
 
 .PHONY: all clean test docker-test docker-valgrind docker-shell
@@ -41,15 +41,19 @@ $(BIN_DIR)/test_basic_mini: $(TEST_DIR)/test_basic_mini.c | $(BIN_DIR)
 $(BIN_DIR)/test_basic: $(TEST_DIR)/test_basic.c $(STATIC_LIB) | $(BIN_DIR)
 	$(CC) $(CFLAGS) $< $(STATIC_LIB) -o $@
 
+$(BIN_DIR)/test_join: $(TEST_DIR)/test_join.c $(STATIC_LIB) | $(BIN_DIR)
+	$(CC) $(CFLAGS) $< $(STATIC_LIB) -o $@
+
 test: $(TEST_BINS)
 	./$(BIN_DIR)/test_pingpong
 	./$(BIN_DIR)/test_basic
+	./$(BIN_DIR)/test_join
 
 docker-test:
 	docker run --rm -v "$$(pwd)":/workspace $(DOCKER_IMAGE) bash -c "make clean && make test"
 
-docker-valgrind: $(BIN_DIR)/test_basic
-	docker run --rm -v "$$(pwd)":/workspace $(DOCKER_IMAGE) valgrind --leak-check=full ./$(BIN_DIR)/test_basic
+docker-valgrind: $(BIN_DIR)/test_join
+	docker run --rm -v "$$(pwd)":/workspace $(DOCKER_IMAGE) valgrind --leak-check=full ./$(BIN_DIR)/test_join
 
 docker-shell:
 	docker run --rm -it -v "$$(pwd)":/workspace $(DOCKER_IMAGE) bash

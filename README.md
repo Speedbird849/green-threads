@@ -24,7 +24,7 @@ The operating system kernel only sees a single thread. The `libgt` library:
 |---|---|---|---|
 | **1. Context Switch** | Ping-Pong contexts | **Done** | Two contexts alternating execution using `swapcontext` (`tests/test_pingpong.c`). |
 | **2. Cooperative Scheduler** | TCB & Ready Queue | **Done** | TCB lifecycle, trampoline bootstrap, FIFO queue, and round-robin `thread_yield()` (`tests/test_basic.c`). |
-| **3. Lifecycle & Cleanup** | `thread_join` & Return Values | Planned | Clean termination, zombie list reclamation, returning exit values. |
+| **3. Lifecycle & Cleanup** | `thread_join` & Return Values | **Done** | Clean termination, zombie list reclamation, returning exit values, 100k cycles (`tests/test_join.c`). |
 | **4. Synchronization** | Mutexes & Semaphores | Planned | Sleep/wait queues for `gt_mutex_t` and `gt_sem_t`. |
 | **5. Preemption** | Timer-driven `SIGALRM` | Planned | Timeslice interrupts, `preempt_disable` critical sections, starvation prevention. |
 | **6. Safety & Diagnostics** | Guard Pages & Deadlock Detection | Planned | `mprotect` guard pages on stacks, alternate signal stack, deadlock reporting. |

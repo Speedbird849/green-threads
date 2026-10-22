@@ -27,6 +27,7 @@ typedef enum {
 struct gt_thread {
     int id;
     thread_state_t state;
+    bool joined;               /* Marked true when join completes */
     ucontext_t ctx;
     char *stack;
     size_t stack_size;
@@ -34,7 +35,8 @@ struct gt_thread {
     void *arg;
     void *retval;
     struct gt_thread *joiner;  /* Waiting thread blocked on join */
-    struct gt_thread *next;    /* Queue linkage */
+    struct gt_thread *next;    /* Queue linkage (ready / wait queues) */
+    struct gt_thread *table_next; /* Active threads table bucket link */
 };
 
 /* Global Scheduler State */
@@ -46,10 +48,18 @@ void gt_ready_push(struct gt_thread *t);
 struct gt_thread *gt_ready_pop(void);
 bool gt_ready_empty(void);
 
+/* Active Thread Table (for safe join validation) */
+void gt_table_insert(struct gt_thread *t);
+void gt_table_remove(struct gt_thread *t);
+bool gt_table_contains(struct gt_thread *t);
+
+/* Memory Reclamation */
+void gt_thread_destroy(struct gt_thread *t);
+
 /* Core Scheduling Engine */
 void gt_schedule(void);
 
-/* Preemption hooks (stubbed for Stage 2, implemented in Stage 5) */
+/* Preemption hooks (stubbed for Stages 2-4, implemented in Stage 5) */
 static inline void gt_preempt_disable(void) {}
 static inline void gt_preempt_enable(void) {}
 
