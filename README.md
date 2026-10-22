@@ -71,6 +71,11 @@ make all
 # Run test suite
 make test
 
+# Run live demos
+make demo         # Multi-task worker pipeline
+make demo-tcp     # Dual-engine TCP server comparison (libgt vs pthreads)
+make showdown     # Direct showdown benchmark vs pthreads (lifecycle, C10K limits, contention)
+
 # Clean artifacts
 make clean
 ```
