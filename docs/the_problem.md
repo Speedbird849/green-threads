@@ -1,4 +1,4 @@
-# The Core Problem: User-Level Threading (Green Threads)
+# The Core Problem: User-Level Threading (libgt / Green Threads)
 
 At its core, this project is about **building our own miniature operating system inside a single standard C program**.
 
@@ -46,13 +46,13 @@ Green threads eliminate the kernel from the scheduling loop. To the Linux/macOS 
         \                    |                    |                   /
          +-------------------+--------------------+------------------+
                                       |
-                           [ Our User-Space Runtime ]
+                           [ libgt Runtime ]
                                       |
 ======================================|================================  (Kernel Boundary)
                            [ 1 OS Kernel Thread ]
 ```
 
-The library we are building is that **User-Space Runtime**. We multiplex hundreds or thousands of "virtual" threads on top of a single OS thread.
+`libgt` is that **User-Space Runtime**. We multiplex hundreds or thousands of "virtual" threads on top of a single OS thread.
 
 ---
 

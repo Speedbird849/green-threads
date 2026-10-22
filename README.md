@@ -1,12 +1,13 @@
-# User-Level Threading Library (Green Threads)
+# libgt: User-Level Threading Library (Green Threads)
 
-A user-space C11 threading library that runs many concurrent threads inside a single OS process. The library itself—not the kernel—manages stacks, saves/restores CPU execution contexts, and decides which thread runs next.
+`libgt` is a user-space C11 threading library that runs many concurrent threads inside a single OS process. The library itself—not the kernel—manages stacks, saves/restores CPU execution contexts, and decides which thread runs next.
 
 ---
 
 ## 1. Overview
 
-The operating system kernel only sees a single thread. The green threads library:
+The operating system kernel only sees a single thread. The `libgt` library:
+- Compiles into a static library (`build/libgt.a`) exposing public API in `<libgt.h>`.
 - Allocates independent stacks for each user thread.
 - Saves and restores CPU register state using POSIX execution contexts (`ucontext`).
 - Implements a cooperative and preemption-capable scheduler with a FIFO ready queue.
@@ -22,7 +23,7 @@ The operating system kernel only sees a single thread. The green threads library
 | Stage | Milestone | Status | Description |
 |---|---|---|---|
 | **1. Context Switch** | Ping-Pong contexts | **Done** | Two contexts alternating execution using `swapcontext` (`tests/test_pingpong.c`). |
-| **2. Cooperative Scheduler** | TCB & Ready Queue | **In Progress** | TCB lifecycle, trampoline bootstrap, FIFO queue, and round-robin `thread_yield()` (`tests/test_basic_mini.c`). |
+| **2. Cooperative Scheduler** | TCB & Ready Queue | **Done** | TCB lifecycle, trampoline bootstrap, FIFO queue, and round-robin `thread_yield()` (`tests/test_basic.c`). |
 | **3. Lifecycle & Cleanup** | `thread_join` & Return Values | Planned | Clean termination, zombie list reclamation, returning exit values. |
 | **4. Synchronization** | Mutexes & Semaphores | Planned | Sleep/wait queues for `gt_mutex_t` and `gt_sem_t`. |
 | **5. Preemption** | Timer-driven `SIGALRM` | Planned | Timeslice interrupts, `preempt_disable` critical sections, starvation prevention. |
@@ -78,7 +79,7 @@ make clean
 To run in a clean Linux glibc environment with Valgrind:
 ```bash
 # Build the dev container image
-docker build -t green-threads-dev .
+docker build -t libgt-dev .
 
 # Run test suite inside container
 make docker-test
